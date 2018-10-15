@@ -44,6 +44,15 @@ io.on("connection", socket => {
     );
   });
 
+  //! Listening to Client then Server Acknowledging
+  socket.on("createMessageWithAcknowledgement", (message, callback) => {
+    console.log("createMessageWithAcknowledgement", message);
+
+    //! Emit to All Clients upon Server Listening
+    io.emit("newMessage", generateMessage(message.from, message.text));
+    callback({ admin: "Jack", role: "admin" });
+  });
+
   //! Server listens to Client Disconnect
   socket.on("disconnect", () => {
     console.log("User Disconnected");

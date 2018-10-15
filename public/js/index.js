@@ -21,6 +21,18 @@ socket.on("welcome", function(message) {
   console.log("welcome", message);
 });
 
+//! Client Emitting to Server with Acknowledgement
+socket.emit(
+  "createMessageWithAcknowledgement",
+  {
+    from: "Frank",
+    text: "Hi"
+  },
+  function(data) {
+    console.log(`Got It! ${data.role}`);
+  }
+);
+
 //! Client Disconnected from Server
 socket.on("disconnect", function() {
   console.log("Disconnected from Server");
