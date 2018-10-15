@@ -1,6 +1,6 @@
 var socket = io();
 
-// Client Connected to Server
+//! Client Connected to Server
 socket.on("connect", function() {
   console.log("Connected to Server");
 
@@ -11,12 +11,17 @@ socket.on("connect", function() {
   //   });
 });
 
-// Client Listening to Server
+//! Client Listening to Server
 socket.on("newMessage", function(message) {
   console.log("newMessage", message);
 });
 
-// Client Disconnected from Server
+//! Client Listening to Server
+socket.on("welcome", function(message) {
+  console.log("welcome", message);
+});
+
+//! Client Disconnected from Server
 socket.on("disconnect", function() {
   console.log("Disconnected from Server");
 });
