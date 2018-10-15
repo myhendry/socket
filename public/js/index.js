@@ -5,15 +5,15 @@ socket.on("connect", function() {
   console.log("Connected to Server");
 
   // Client Emitting to Server
-  socket.emit("createMessage", {
-    from: "client@gmail.com",
-    message: "Testing"
-  });
+  //   socket.emit("createMessage", {
+  //     from: "client@gmail.com",
+  //     message: "Testing"
+  //   });
 });
 
 // Client Listening to Server
-socket.on("newMessage", function(data) {
-  console.log("newMessage", data);
+socket.on("newMessage", function(message) {
+  console.log("newMessage", message);
 });
 
 // Client Disconnected from Server

@@ -17,15 +17,22 @@ io.on("connection", socket => {
   console.log("New User Connected");
 
   // Server emits to Client
-  socket.emit("newMessage", {
-    from: "hendry@gmail.com",
-    message: "hi there",
-    createdAt: 123123
-  });
+  //   socket.emit("newMessage", {
+  //     from: "hendry@gmail.com",
+  //     message: "hi there",
+  //     createdAt: 123123
+  //   });
 
   // Server Listing to Client Event
-  socket.on("createMessage", data => {
-    console.log("createMessage", data);
+  socket.on("createMessage", message => {
+    console.log("createMessage", message);
+
+    // Broadcast to All Clients upon Server Listening
+    io.emit("newMessage", {
+      from: message.from,
+      text: message.text,
+      createdAt: new Date().getTime()
+    });
   });
 
   // Server listens to Client Disconnect
