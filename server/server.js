@@ -10,6 +10,8 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIO(server);
 
+const { generateMessage } = require("./utils/message");
+
 app.use(express.static(publicPath));
 
 // Server listens to Client Connected
@@ -17,43 +19,29 @@ io.on("connection", socket => {
   console.log("New User Connected");
 
   //! Server emits to Client
-  //   socket.emit("newMessage", {
-  //     from: "hendry@gmail.com",
-  //     message: "hi there",
-  //     createdAt: 123123
-  //   });
+  // socket.emit("newMessage", generateMessage('Admin', 'Welcome!!'));
 
   //! Server emits to Client
-  socket.emit("welcome", {
-    from: "Admin",
-    message: "Welcome to the Chat App",
-    createdAt: new Date().getTime()
-  });
+  socket.emit("welcome", generateMessage("Admin", "Welcome to the Chat App!!"));
 
   //! Server broadcast to Other Clients
-  socket.broadcast.emit("welcome", {
-    from: "Admin",
-    message: "New User Joined",
-    createdAt: new Date().getTime()
-  });
+  socket.broadcast.emit(
+    "welcome",
+    generateMessage("Admin", "New User Joined!!")
+  );
 
   //! Server Listing to Client Event
   socket.on("createMessage", message => {
     console.log("createMessage", message);
 
     //! Emit to All Clients upon Server Listening
-    // io.emit("newMessage", {
-    //   from: message.from,
-    //   text: message.text,
-    //   createdAt: new Date().getTime()
-    // });
+    io.emit("newMessage", generateMessage(message.from, message.text));
 
     //! Broadcast to All Clients (except emitter) upon Server Listening
-    socket.broadcast.emit("newMessage", {
-      from: message.from,
-      text: message.text,
-      createdAt: new Date().getTime()
-    });
+    socket.broadcast.emit(
+      "newMessage",
+      generateMessage(message.from, message.text)
+    );
   });
 
   //! Server listens to Client Disconnect
